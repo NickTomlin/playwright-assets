@@ -9,18 +9,46 @@ A utility to monitor asset size in dynamic applications
 npm install playwright-assets
 ```
 
-## NPX
+### Within a test
+
+```typescript
+// TODO: add instructions for using merge?
+// https://playwright.dev/docs/test-assertions#combine-custom-matchers-from-multiple-modules
+import {assetExpect, collectStats} from "playwright-assets"
+
+test("should have a small bundle", async ({page}) => {
+  const stats = await collectStats(
+    page,
+    async () => page.goto("https://www.google.com")
+  )
+  
+  await assetExpect(page).toBeUnder(1000)
+})
+```
+
+### As a library
 
 ```typescript
 // do we want to have them use playwright, 
 // or just do things before?
-import {visit} from "playwright-assets"
+import {collectStats} from "playwright-assets"
+import { chromium } from 'playwright';
 
-// default: chromium, fresh browser / context / page
-const {results} =  await visit("https://www.google.com")
+// TODO: we could implement a helper function to do this
+// setup
+// so it's just... 
+// import {init} from "playwright-assets"
+// const page = init("https://www.google.com", { /* options, including a `setup` function that can just return a page */ })
+// const {stats} = page.visit("/search)
+// const {stats} = page.visit("/search?q=playwright")
+const browser = await chromium.launch()
+const page = await browser.newPage();
+const stats = await collectStats(
+    page,
+    async () => page.goto("https://www.google.com")
+)
 
-// OR, with an existing page
-await visit("https://www.google.com", {page})
+console.log(stats)
 ```
 
 It'd kinda be nice to just have this as an assertion/test... but I can see us/users wanting to use the data too

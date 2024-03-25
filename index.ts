@@ -48,8 +48,8 @@ interface CollectAssetStatsOptions {
 }
 
 
-export async function collectAssetStats(page: Page, action: () => Promise<void>, options: CollectAssetStatsOptions) {
-  const filter = options.filter ?? (() => true)
+export async function collectStats(page: Page, action: () => Promise<void>, options: CollectAssetStatsOptions = {}) {
+  const {  filter = () => true } = options
   const stats: Stat[] = []
   page.on('requestfinished', async (request) => {
     const timing = request.timing()
@@ -59,6 +59,7 @@ export async function collectAssetStats(page: Page, action: () => Promise<void>,
         type: request.resourceType(),
         url: request.url(),
         size: sizes.responseBodySize,
+        // todo: pretty print in terms of KB/MB?
         duration: timing.responseEnd - timing.requestStart
       })
     }
@@ -69,7 +70,7 @@ export async function collectAssetStats(page: Page, action: () => Promise<void>,
 }
 
 
-export const expect = baseExpect.extend({
+export const assetExpect = baseExpect.extend({
   toHaveAssetsLessThan(received, type: string, size: number) {
     const typeStats = (received as StatRollup)[type];
     if (!typeStats) {

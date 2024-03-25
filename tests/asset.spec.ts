@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { collectAssetStats, expect as assetExpect } from 'index';
+import { collectStats, assetExpect } from 'index';
 
 test('has title', async ({ page }) => {
-  const stats = await collectAssetStats(page, async () => {
+  const stats = await collectStats(page, async () => {
     await page.goto('https://playwright.dev/');
   })
 

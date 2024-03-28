@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/NickTomlin/playwright-assets/issues"
   },
+  "peerDependencies": {
+    "@playwright/test": "*"
+  },
   "homepage": "https://github.com/NickTomlin/playwright-assets#readme",
   "devDependencies": {
     "@playwright/test": "^1.42.1",

@@ -48,7 +48,7 @@ interface CollectAssetStatsOptions {
 }
 
 
-export async function collectStats(page: Page, action: () => Promise<void>, options: CollectAssetStatsOptions = {}) {
+export async function collectStats(page: Page, action: () => Promise<void>, options: CollectAssetStatsOptions = {}) : Promise<StatRollup> {
   const {  filter = () => true } = options
   const stats: Stat[] = []
   page.on('requestfinished', async (request) => {
@@ -69,25 +69,53 @@ export async function collectStats(page: Page, action: () => Promise<void>, opti
   return groupStats(stats)
 }
 
+function sizeToBit(bit: number, unit: "kb" | "mb") {
+  if (unit === "kb") {
+    return bit * 1024
+  } else {
+    return bit * 1024 * 1024
+  }
+}
 
+function bitToUnit(num: number, unit: "kb" | "mb") {
+  if (unit === "kb") {
+    return num / 1024
+  } else {
+    return num / 1024 / 1024
+  }
+}
+
+function prettyPrintBit(num: number, unit: "kb" | "mb") {
+  const converted = bitToUnit(num, unit)
+  return `${converted.toFixed(2)}${unit}`
+}
+
+// TODO: will this work with `0.3mb`?
 export const assetExpect = baseExpect.extend({
-  toHaveAssetsLessThan(received, type: string, size: number) {
+  toHaveAssetsLessThan(received, type: string, size: number, options?: {unit: "kb" | "mb" }) {
+    const { unit = "kb" } = options ?? {}
     const typeStats = (received as StatRollup)[type];
     if (!typeStats) {
+      // TODO: is this a fail? or is just an ignore?
       return {
         pass: false,
         message: () => `No stats found for type \`${type}\``,
       };
     }
     const totalSize = typeStats.totalSize;
+    const convertedExpected = sizeToBit(size, unit)
+
     return {
-      pass: totalSize < size,
+      pass: convertedExpected > totalSize,
       message: () => {
-        const topOffenders = typeStats.stats.slice(0, 4).map((stat) => {
+        const topOffenders = [...typeStats.stats]
+        .sort((a, b) => b.size - a.size)
+        .slice(0, 6)
+        .map((stat) => {
           const simplePath = new URL(stat.url).pathname
-          return simplePath + ' ' + stat.size;
+          return simplePath + ' ' + prettyPrintBit(stat.size, unit)
         })
-        return `Expected total size of \`${type}\` assets to be less than ${size}, but got ${totalSize}. Top offenders:\n${topOffenders.join('\n')}`
+        return `Expected total size of \`${type}\` assets to be less than ${size}${unit}, but got ${prettyPrintBit(totalSize, unit)}. Top offenders:\n${topOffenders.join('\n')}`
       }
     };
   },

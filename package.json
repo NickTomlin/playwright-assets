@@ -1,5 +1,5 @@
 {
-  "name": "playwright-assets",
+  "name": "@nicktomlin/playwright-assets",
   "version": "1.0.0",
   "description": "A utility to monitor asset size in dynamic applications",
   "main": "index.js",

@@ -6,7 +6,7 @@ A utility to monitor asset size in dynamic applications
 ## Installation
 
 ```
-npm install playwright-assets
+npm install @nicktomlin/playwright-assets
 ```
 
 ### Within a test
@@ -14,7 +14,7 @@ npm install playwright-assets
 ```typescript
 // TODO: add instructions for using merge?
 // https://playwright.dev/docs/test-assertions#combine-custom-matchers-from-multiple-modules
-import {assetExpect, collectStats} from "playwright-assets"
+import {assetExpect, collectStats} from "@nicktomlin/playwright-assets"
 
 test("should have a small bundle", async ({page}) => {
   const stats = await collectStats(
@@ -31,7 +31,7 @@ test("should have a small bundle", async ({page}) => {
 ```typescript
 // do we want to have them use playwright, 
 // or just do things before?
-import {collectStats} from "playwright-assets"
+import {collectStats} from "@nicktomlin/playwright-assets"
 import { chromium } from 'playwright';
 
 // TODO: we could implement a helper function to do this

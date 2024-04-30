@@ -1,0 +1,28 @@
+{
+  "name": "@nicktomlin/playwright-assets",
+  "version": "1.0.0",
+  "description": "A utility to monitor asset size in dynamic applications",
+  "main": "index.js",
+  "scripts": {
+    "test:example": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickTomlin/playwright-assets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickTomlin/playwright-assets/issues"
+  },
+  "peerDependencies": {
+    "@playwright/test": "*"
+  },
+  "homepage": "https://github.com/NickTomlin/playwright-assets#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.30",
+    "typescript": "^5.4.3"
+  }
+}

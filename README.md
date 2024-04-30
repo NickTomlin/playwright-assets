@@ -1,3 +1,6 @@
+> [!WARNING]  
+> This is in a prototype / proof-of-concept stage 🐱
+
 # playwright-assets
 A utility to monitor asset size in dynamic applications
 

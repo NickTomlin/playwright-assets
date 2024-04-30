@@ -25,7 +25,7 @@ test("should have a small bundle", async ({page}) => {
     async () => page.goto("https://www.google.com")
   )
   
-  await assetExpect(page).toBeUnder(1000)
+  assetExpect(stats).toHaveAssetsLessThan('script', 180, { unit: "kb" })
 })
 ```
 

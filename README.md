@@ -1,7 +1,9 @@
 > [!WARNING]  
 > This is in a prototype / proof-of-concept stage 🐱
 
-# playwright-assets
+playwright-assets
+===
+
 A utility to monitor asset size in dynamic applications
 
 # Usage
@@ -15,8 +17,6 @@ npm install @nicktomlin/playwright-assets
 ### Within a test
 
 ```typescript
-// TODO: add instructions for using merge?
-// https://playwright.dev/docs/test-assertions#combine-custom-matchers-from-multiple-modules
 import {assetExpect, collectStats} from "@nicktomlin/playwright-assets"
 
 test("should have a small bundle", async ({page}) => {
@@ -32,18 +32,9 @@ test("should have a small bundle", async ({page}) => {
 ### As a library
 
 ```typescript
-// do we want to have them use playwright, 
-// or just do things before?
 import {collectStats} from "@nicktomlin/playwright-assets"
 import { chromium } from 'playwright';
 
-// TODO: we could implement a helper function to do this
-// setup
-// so it's just... 
-// import {init} from "playwright-assets"
-// const page = init("https://www.google.com", { /* options, including a `setup` function that can just return a page */ })
-// const {stats} = page.visit("/search)
-// const {stats} = page.visit("/search?q=playwright")
 const browser = await chromium.launch()
 const page = await browser.newPage();
 const stats = await collectStats(
@@ -53,10 +44,6 @@ const stats = await collectStats(
 
 console.log(stats)
 ```
-
-It'd kinda be nice to just have this as an assertion/test... but I can see us/users wanting to use the data too
-
-Ideally it can integrate with the typical playwright tooing so we do less heavy lifting.
 
 ### CLI
 

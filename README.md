@@ -1,10 +1,10 @@
 > [!WARNING]  
 > This is in a prototype / proof-of-concept stage 🐱
 
-playwright-assets
+🤖 playwright-assets
 ===
 
-A utility to monitor asset size in dynamic applications
+A utility to monitor asset size in dynamic applications using [playwright](https://playwright.dev/)
 
 # Usage
 
